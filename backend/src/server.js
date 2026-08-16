@@ -6,7 +6,7 @@ import logger from "./logger/index.js";
 const server = app.listen(config.PORT, async () => {
     try {
         await pool.query('SELECT NOW()');
-        logger.info(`Database connected successfully at ${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}`);
+        logger.info(`Database connected successfully at ${config.DATABASE_URL}`);
     } catch (error) {
         logger.error('Error connecting to database', error);
         process.exit(1);
