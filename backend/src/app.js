@@ -8,6 +8,8 @@ import hpp from 'hpp'
 import globalLimiter from './middleware/rateLimiter.middleware.js'
 import sessionMiddleware from './config/session.js'
 import csrfMiddleware from './middleware/csrf.js'
+import { errorHandler, notFoundHandler } from './middleware/error.middleware.js'
+import { requestLogger } from './middleware/requestLogger.js'
 
 const app = express()
 
@@ -26,10 +28,12 @@ app.use(hpp())
 app.use(globalLimiter)
 app.use(sessionMiddleware)
 app.use(csrfMiddleware)
-
+app.use(requestLogger)
 
 app.get('/health', (req, res) => {
     res.status(200).json({ message: 'OK' })
 })
 
+app.use(notFoundHandler)
+app.use(errorHandler)
 export default app
