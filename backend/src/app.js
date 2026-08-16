@@ -5,6 +5,9 @@ import compression from 'compression'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import hpp from 'hpp'
+import globalLimiter from './middleware/rateLimiter.middleware.js'
+import sessionMiddleware from './config/session.js'
+import csrfMiddleware from './middleware/csrf.js'
 
 const app = express()
 
@@ -19,6 +22,11 @@ app.use(cookieParser())
 app.use(express.json({ limit: '10kb' }))
 app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 app.use(hpp())
+
+app.use(globalLimiter)
+app.use(sessionMiddleware)
+app.use(csrfMiddleware)
+
 
 app.get('/health', (req, res) => {
     res.status(200).json({ message: 'OK' })
