@@ -7,10 +7,9 @@ const envSchema = z.object({
     DATABASE_URL: z.string().url(),
     SESSION_SECRET: z.string().min(32),
     CLIENT_URL: z.string().url(),
-    SMTP_HOST: z.string(),
-    SMTP_PORT: z.coerce.number().default(587),
-    SMTP_USER: z.string(),
-    SMTP_PASSWORD: z.string().min(8),
+    BREVO_API_KEY: z.string().min(1),
+    BREVO_SENDER_EMAIL: z.string().email(),
+    BREVO_SENDER_NAME: z.string().min(1),
 })
 
 const parsed = envSchema.safeParse(process.env)
